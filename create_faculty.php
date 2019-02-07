@@ -65,19 +65,21 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="create_faculty.php">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Create Faculty account</span></a>
+
+      <li class="nav-item">
+        <a class="nav-link" href="adminmain.php">
+          <i class="fas fa-fw fa-file-alt"></i>
+          <span>Generate Report</span></a>
       </li>
 
       <hr class="sidebar-divider my-0">
 
-      <li class="nav-item">
-        <a class="nav-link" href="adminmain.php">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Generate Report</span></a>
+      <li class="nav-item active">
+        <a class="nav-link" href="create_faculty.php">
+          <i class="fas fa-fw fa-plus"></i>
+          <span>Create Faculty account</span></a>
       </li>
+
 
 
 

@@ -81,7 +81,7 @@ if(isset($_POST['submit'])){
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
         <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-fw fa-plus"></i>
           <span>Add Event</span></a>
       </li>
 
@@ -89,7 +89,7 @@ if(isset($_POST['submit'])){
 
       <li class="nav-item">
         <a class="nav-link" href="complete_event.php">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <i class="fas fa-fw fa-check"></i>
           <span>Event Completion</span></a>
       </li>
 
