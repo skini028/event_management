@@ -18,7 +18,7 @@
         $count = mysqli_num_rows($result);
 
         if($count == 1) {
-         $_SESSION['user'] = $password;
+         $_SESSION['user'] = $username;
          header("location:main.php");
         } else {
          $error = "Your Username or Password is invalid";

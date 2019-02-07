@@ -72,9 +72,6 @@ if(isset($_POST['submit'])){
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon">
-          <img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="SCOE">
-        </div>
         <div class="sidebar-brand-text mx-3">Event Management</div>
       </a>
 
@@ -117,6 +114,13 @@ if(isset($_POST['submit'])){
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
+        <div class="sidebar-brand-icon">
+          <img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="SCOE">
+        </div>
+      <a class="sidebar-brand d-flex align-items-center justify-content-center">
+        <div class="sidebar-brand-text mx-3">Saraswati College of Engineering</div>
+      </a>
+
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -140,11 +144,11 @@ if(isset($_POST['submit'])){
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <div class="d-sm-flex align-items-center justify-content-center mb-4">
             <h1 class="h3 mb-0 text-gray-800">Create New Event</h1>
           </div>
 
-        <div class="row">
+        <div class="row justify-content-center">
 
           <div class="col col-sm-6">
             <form id="form" name="create_event" method="post" class="col s12">
@@ -177,18 +181,18 @@ if(isset($_POST['submit'])){
                     <div class="input-field col s12 mt-4">
                       <select name="type_of_event" class="form-control" required>
                         <option value="">Type of Event</option>
-                        <option value="add_on">ADD-ON</option>
-                        <option value="site_visit">SITE VISIT</option>
-                        <option value="poster_presentation">POSTER PRESENTATION</option>
-                        <option value="technical_conference">TECHNICAL CONFRENCE</option>
-                        <option value="sttp">STTP</option>
-                        <option value="fdp">FDP</option>
-                        <option value="industrial_visit">INDUSTRIAL VISIT</option>
-                        <option value="model_competition">MODEL COMPETITION</option>
-                        <option value="project_competition">PROJECT COMPETITION</option>
-                        <option value="paper_presentation">PAPER PRESENTATION</option>
-                        <option value="training">TRAINING</option>
-                        <option value="any_other">ANY OTHER</opti-on>
+                        <option value="ADD-ON">ADD-ON</option>
+                        <option value="SITE VISIT">SITE VISIT</option>
+                        <option value="POSTER PRESENTATION">POSTER PRESENTATION</option>
+                        <option value="TECHNICAL CONFRENCE">TECHNICAL CONFRENCE</option>
+                        <option value="STTP">STTP</option>
+                        <option value="FDP">FDP</option>
+                        <option value="INDUSTRIAL VISIT">INDUSTRIAL VISIT</option>
+                        <option value="MODEL COMPETITION">MODEL COMPETITION</option>
+                        <option value="PROJECT COMPETITION">PROJECT COMPETITION</option>
+                        <option value="PAPER PRESENTATION">PAPER PRESENTATION</option>
+                        <option value="TRAINING">TRAINING</option>
+                        <option value="ANY OTHER">ANY OTHER</option>
                       </select>
                     </div>
 
@@ -209,37 +213,6 @@ if(isset($_POST['submit'])){
                             </div>
                         </div>
                     </div>
-<!--
-
-                    <div class="col s12 mt-4">
-                        <input type="text" pattern="\d{4}/\d{1,2}/\d{1,2}" class="datepicker"  id="from" width="276" name="date_from" value="Date From" required/>
-
-                         <script>
-                             $('#from').datepicker({
-                                 uiLibrary: 'bootstrap4',
-                                   format: 'yyyy/mm/dd'
-
-                             });
-
-                         </script>
-                    </div>
-
-                    <div class="col s12 mt-4">
-                        <input type="text" pattern="\d{4}/\d{1,2}/\d{1,2}" class="datepicker"  id="to" width="276" name="date_to" value="Date To" required/>
-
-                             <script>
-                                 $('#to').datepicker({
-                                     uiLibrary: 'bootstrap4',
-                                       format: 'yyyy/mm/dd'
-
-                                 });
-
-                             </script>
-                    </div>
-
--->
-
-
 
                           <div class="input-field col s12 mt-4">
                         <select name="type_of_participant" class="form-control" required>
@@ -254,23 +227,23 @@ if(isset($_POST['submit'])){
 
 
 
-                          <div class="input-field col s12 mt-4">
-                            <input class="form-control" name="resource_person_name" type="text" placeholder="Resource Person's Name" required>
-                          </div>
+                  <div class="input-field col s12 mt-4">
+                    <input class="form-control" name="resource_person_name" type="text" placeholder="Resource Person's Name" required>
+                  </div>
 
-                          <div class="input-field col s12 mt-4">
-                            <input class="form-control" name="resource_person_desg" type="text" placeholder="Resource Person's Designation" required>
-                          </div>
-
-
-                          <div class="input-field col s12 mt-4">
-                            <input class="form-control" name="resource_person_org" type="text" placeholder="Resource Person's Organisation" required>
-                          </div>
+                  <div class="input-field col s12 mt-4">
+                    <input class="form-control" name="resource_person_desg" type="text" placeholder="Resource Person's Designation" required>
+                  </div>
 
 
-                          <div class="input-field col s12 mt-4">
-                            <input class="form-control" name="area_of_expertise" type="text" placeholder="Area of Expertise" required>
-                          </div>
+                  <div class="input-field col s12 mt-4">
+                    <input class="form-control" name="resource_person_org" type="text" placeholder="Resource Person's Organisation" required>
+                  </div>
+
+
+                  <div class="input-field col s12 mt-4">
+                    <input class="form-control" name="area_of_expertise" type="text" placeholder="Area of Expertise" required>
+                  </div>
 
 
 
@@ -295,7 +268,7 @@ if(isset($_POST['submit'])){
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; Saraswati College Of Engineering</span>
           </div>
         </div>
       </footer>
@@ -311,25 +284,6 @@ if(isset($_POST['submit'])){
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>

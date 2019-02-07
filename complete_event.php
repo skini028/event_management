@@ -12,6 +12,8 @@ $error = "";
 if(isset($_POST['submit'])){
     $db;
     $event=$_POST["event"];
+    $date_from = mysqli_real_escape_string($db, $_POST["date_from"]);
+    $date_to = mysqli_real_escape_string($db, $_POST["date_to"]);
     $no_of_participants = mysqli_real_escape_string($db, $_POST["no_of_participants"]);
     $description = mysqli_real_escape_string($db, $_POST["description"]);
     $outcome = mysqli_real_escape_string($db, $_POST["outcome"]);
@@ -143,9 +145,6 @@ if(isset($_POST['submit'])){
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon">
-          <img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="SCOE">
-        </div>
         <div class="sidebar-brand-text mx-3">Event Management</div>
       </a>
 
@@ -167,8 +166,6 @@ if(isset($_POST['submit'])){
           <span>Event Completion</span></a>
       </li>
 
-
-
       <!-- Divider -->
       <hr class="sidebar-divider">
 
@@ -188,6 +185,13 @@ if(isset($_POST['submit'])){
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
+
+        <div class="sidebar-brand-icon">
+          <img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="SCOE">
+        </div>
+      <a class="sidebar-brand d-flex align-items-center justify-content-center">
+        <div class="sidebar-brand-text mx-3">Saraswati College of Engineering</div>
+      </a>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -210,12 +214,13 @@ if(isset($_POST['submit'])){
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <!-- Page Heading 
+            -->
+          <div class="d-sm-flex align-items-center justify-content-center mb-4">
             <h1 class="h3 mb-0 text-gray-800">Comlete event</h1>
           </div>
 
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="col col-sm-9">
                     <form class="form-signin" method="POST" action="complete_event.php">
 
@@ -230,8 +235,14 @@ if(isset($_POST['submit'])){
                               $sql = "select title from event where username = '$user' and status = 'incomplete'";
                               $execute = mysqli_query($db, $sql);
                               while ($rows = mysqli_fetch_array($execute)) {
-                                  $title = $rows["title"]; ?>
-                                  <option value="<?php echo $title ?>"><?php echo $title ?></option>
+                                  $title = $rows["title"]; 
+                                  if (isset($_GET["event"])) {
+                                      $event = $_GET["event"];
+                                  } else {
+                                      $event = "";
+                                  }
+                                ?>
+                                  <option value="<?php echo $title ?>" <?php if($event == $title) echo 'selected' ?> ><?php echo $title ?></option>
                               <?php } ?>
 
                               </select>
@@ -408,7 +419,7 @@ if(isset($_POST['submit'])){
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; Saraswati College Of Engineering</span>
           </div>
         </div>
       </footer>

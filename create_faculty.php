@@ -19,7 +19,7 @@
             exit();
         }
 
-        $sql = "INSERT INTO admin (username, password) values ('$username', '$password')";
+        $sql = "INSERT INTO faculty (username, password) values ('$username', '$password')";
         $result = mysqli_query($db,$sql);
         if ($result) {
             header("location:adminmain.php");
@@ -58,9 +58,6 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon">
-          <img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="SCOE">
-        </div>
         <div class="sidebar-brand-text mx-3">Event Management</div>
       </a>
 
@@ -98,7 +95,13 @@
 
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-             Saraswati College of Engineering
+        <div class="sidebar-brand-icon">
+          <img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="SCOE">
+        </div>
+      <a class="sidebar-brand d-flex align-items-center justify-content-center">
+        <div class="sidebar-brand-text mx-3">Saraswati College of Engineering</div>
+      </a>
+
 
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -164,7 +167,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+            <span>Copyright &copy; Saraswati College Of Engineering</span>
           </div>
         </div>
       </footer>
@@ -180,25 +183,6 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
