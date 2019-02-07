@@ -21,9 +21,8 @@
          $_SESSION['user'] = $username;
          header("location:main.php");
         } else {
-         $error = "Your Username or Password is invalid";
-         echo "<script type='text/javascript'>alert('$error');</script>";
-
+        $_SESSION["msg_type"] = "danger";
+        $_SESSION["msg"] = "Your username or password is invalid";
         }
    }
 ?>
@@ -77,6 +76,21 @@
 
 
   <div class="container">
+    <?php
+        if(isset($_SESSION["msg"]) && $_SESSION["msg"] != '' && $_SESSION["msg_type"] != '') {
+    ?>
+        <div class="alert alert-<?php echo $_SESSION["msg_type"]; ?> alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION["msg"]; ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div> 
+    <?php
+            unset($_SESSION["msg"]);
+            unset($_SESSION["msg_type"]);
+        }
+    ?>
+
 
     <!-- Outer Row -->
     <div class="row justify-content-center">

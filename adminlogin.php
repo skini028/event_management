@@ -7,7 +7,6 @@
      exit();
    }
 
-    $error = "";
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = mysqli_real_escape_string($db, $_POST['username']);
         $password = mysqli_real_escape_string($db, $_POST['password']);
@@ -15,8 +14,8 @@
         $sql = "SELECT id FROM admin WHERE username = '$username' and password = '$password'";
         $result = mysqli_query($db,$sql);
         if (mysqli_num_rows($result) == 0) {
-            $error = "Your Username or Password is invalid";
-            echo "<script type='text/javascript'>alert('$error');</script>";
+            $_SESSION["msg"] = "Your username or password is invalid";
+            $_SESSION["msg_type"] = "danger";
         } else {
              $_SESSION['admin'] = $password;
              header("location:adminmain.php");
@@ -73,6 +72,22 @@
 
 
   <div class="container">
+
+        <?php
+            if(isset($_SESSION["msg"]) && $_SESSION["msg"] != '' && $_SESSION["msg_type"] != '') {
+        ?>
+            <div class="alert alert-<?php echo $_SESSION["msg_type"]; ?> alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION["msg"]; ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> 
+        <?php
+                unset($_SESSION["msg"]);
+                unset($_SESSION["msg_type"]);
+            }
+        ?>
+
 
     <!-- Outer Row -->
     <div class="row justify-content-center">

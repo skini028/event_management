@@ -6,35 +6,6 @@ if(!isset($_SESSION['admin'])){
   exit();
 }
 
-//if(isset($_POST['submit'])){
-//    $db;
-//    $date=$_POST["date_from"];
-//    $title = mysqli_real_escape_string($db, $_POST["title"]);
-//    $department = mysqli_real_escape_string($db, $_POST["department"]);
-//    $level = mysqli_real_escape_string($db, $_POST["level"]);
-//    $type_of_event = mysqli_real_escape_string($db, $_POST["type_of_event"]);
-//    $date_from = mysqli_real_escape_string($db, $_POST["date_from"]);
-//    $date_to = mysqli_real_escape_string($db, $_POST["date_to"]);
-//    $type_of_participant = mysqli_real_escape_string($db, $_POST["type_of_participant"]);
-//    $resource_person_name = mysqli_real_escape_string($db, $_POST["resource_person_name"]);
-//    $resource_person_desg = mysqli_real_escape_string($db, $_POST["resource_person_desg"]);
-//    $resource_person_org = mysqli_real_escape_string($db, $_POST["resource_person_org"]);
-//    $area_of_expertise = mysqli_real_escape_string($db, $_POST["area_of_expertise"]);
-//    $status = "incomplete";
-//    $user = $_SESSION["user"];
-//
-//    $sql = "INSERT INTO event (title, department, level, type_of_event,
-//            date_from, date_to, type_of_participant, resource_person_name,
-//            resource_person_desg, resource_person_org, area_of_expertise, status, username)
-//            values ('$title', '$department', '$level', '$type_of_event', '$date_from', '$date_to',
-//                    '$type_of_participant', '$resource_person_name', '$resource_person_desg',
-//                    '$resource_person_org', '$area_of_expertise', '$status', '$user')";
-//    $run=mysqli_query($db,$sql);
-//    if($run){
-//        header('Location: ' . 'main.php', true, false ? 301 : 302);
-//        exit();
-//    }
-//}
 ?>
 
 
@@ -67,7 +38,7 @@ if(!isset($_SESSION['admin'])){
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
                 <div class="sidebar-brand-text mx-3">Event Management</div>
             </a>
             <!-- Divider -->
@@ -86,6 +57,15 @@ if(!isset($_SESSION['admin'])){
                     <span>Create Faculty account</span>
                 </a>
             </li>
+
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="complete_event_admin.php">
+                    <i class="fas fa-fw fa-check"></i>
+                    <span>Completet Event</span>
+                </a>
+            </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -126,6 +106,23 @@ if(!isset($_SESSION['admin'])){
                         <h1 class="h3 mb-0 text-gray-800">Event Report</h1>
                     </div>
                     -->
+        <?php
+            if(isset($_SESSION["msg"]) && $_SESSION["msg"] != '' && $_SESSION["msg_type"] != '') {
+        ?>
+            <div class="alert alert-<?php echo $_SESSION["msg_type"]; ?> alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION["msg"]; ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> 
+        <?php
+                unset($_SESSION["msg"]);
+                unset($_SESSION["msg_type"]);
+            }
+        ?>
+
+
+
                     <div class="row">
                         <div class="col">
                             <div style="overflow-x: scroll">
@@ -156,15 +153,15 @@ if(!isset($_SESSION['admin'])){
                                             <th class="col-1" scope="col">Achievement Student/Staff</th>
                                             <th class="col-1" scope="col">Achievement Dept.</th>
                                             <th class="col-1" scope="col">Achievement College</th>
-                                            <th class="col-1" scope="col">PSO1 No.</th>
+                                            <th class="col-1" scope="col">PSO1 Objective<th>
                                             <th class="col-2" scope="col">PSO1 Desc.</th>
-                                            <th class="col-1" scope="col">PSO2 No.</th>
+                                            <th class="col-1" scope="col">PSO2 Objective<th>
                                             <th class="col-2" scope="col">PSO2 Desc.</th>
-                                            <th class="col-1" scope="col">PSO3 No.</th>
+                                            <th class="col-1" scope="col">PSO3 Objective<th>
                                             <th class="col-2" scope="col">PSO3 Des.</th>
-                                            <th class="col-1" scope="col">PSO4 No.</th>
+                                            <th class="col-1" scope="col">PSO4 Objective<th>
                                             <th class="col-2" scope="col">PSO4 Desc.</th>
-                                            <th class="col-1" scope="col">PSO5 No.</th>
+                                            <th class="col-1" scope="col">PSO5 Objective<th>
                                             <th class="col-2" scope="col">PSO5 Desc.</th>
                                         </tr>
                                     </thead>

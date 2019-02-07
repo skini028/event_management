@@ -23,14 +23,22 @@ if(isset($_POST['submit'])){
     $status = "incomplete";
     $user = $_SESSION["user"];
 
-    $sql = "INSERT INTO event (title, department, level, type_of_event,
+    $query = "SELECT COUNT(id) from event where department = '$department'";
+    $run = mysqli_query($db, $query);
+    $existing_count = mysqli_fetch_array($run)[0];
+    $existing_count = $existing_count + 1;
+    $event_id = $department . $existing_count;
+
+    $sql = "INSERT INTO event (id, title, department, level, type_of_event,
             date_from, date_to, type_of_participant, resource_person_name,
             resource_person_desg, resource_person_org, area_of_expertise, status, username)
-            values ('$title', '$department', '$level', '$type_of_event', '$date_from', '$date_to',
+            values ('$event_id','$title', '$department', '$level', '$type_of_event', '$date_from', '$date_to',
                     '$type_of_participant', '$resource_person_name', '$resource_person_desg',
                     '$resource_person_org', '$area_of_expertise', '$status', '$user')";
     $run=mysqli_query($db,$sql);
     if($run){
+        $_SESSION["msg"] = "Event succesfully created with ID " . $event_id;
+        $_SESSION["msg_type"] = "success";
         header('Location: ' . 'main.php', true, false ? 301 : 302);
         exit();
     }
@@ -71,7 +79,7 @@ if(isset($_POST['submit'])){
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
         <div class="sidebar-brand-text mx-3">Event Management</div>
       </a>
 
@@ -80,7 +88,7 @@ if(isset($_POST['submit'])){
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="main.php">
           <i class="fas fa-fw fa-plus"></i>
           <span>Add Event</span></a>
       </li>
@@ -91,6 +99,14 @@ if(isset($_POST['submit'])){
         <a class="nav-link" href="complete_event.php">
           <i class="fas fa-fw fa-check"></i>
           <span>Event Completion</span></a>
+      </li>
+
+      <hr class="sidebar-divider my-0">
+
+      <li class="nav-item">
+        <a class="nav-link" href="cancel_event.php">
+          <i class="fas fa-fw fa-times"></i>
+          <span>Cancel Event</span></a>
       </li>
 
 
@@ -143,6 +159,22 @@ if(isset($_POST['submit'])){
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
+        <?php
+            if(isset($_SESSION["msg"]) && $_SESSION["msg"] != '' && $_SESSION["msg_type"] != '') {
+        ?>
+            <div class="alert alert-<?php echo $_SESSION["msg_type"]; ?> alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION["msg"]; ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> 
+        <?php
+                unset($_SESSION["msg"]);
+                unset($_SESSION["msg_type"]);
+            }
+        ?>
+
+
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-center mb-4">
             <h1 class="h3 mb-0 text-gray-800">Create New Event</h1>
@@ -150,24 +182,35 @@ if(isset($_POST['submit'])){
 
         <div class="row justify-content-center">
 
-          <div class="col col-sm-6">
+          <div class="col col-sm-10">
             <form id="form" name="create_event" method="post" class="col s12">
-                <div class="input-field col s12">
-                    <select name="department" class="form-control" required>
-                        <option value="">Organising Department</option>
-                        <option value="IT">INFORMATION TECHNOLOGY</option>
-                        <option value="CIVIL">CIVIL</option>
-                        <option value="CS">COMPUTER SCIENCE</option>
-                        <option value="MECH">MECHANICAL</option>
-                        <option value="EXTC">EXTC</option>
-                        <option value="AUTO">AUTOMOBILE</option>
-                        <option value="EN">EN CELL</option>
-                        <option value="PLACEMENT">PLACEMENT CELL</option>
-                        <option value="NSS">NSS CELL</option>
+
+                <div class="row">
+                    <div class="input-field col s12 mt-4">
+                        <label>Title of the event</label>
+                        <input class="form-control" name="title" type="text" placeholder="Enter event title" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col-sm-6 s12 mt-4">
+                        <label>Department</label>
+                        <select name="department" class="form-control" required>
+                            <option value="">Organising Department</option>
+                            <option value="IT">INFORMATION TECHNOLOGY</option>
+                            <option value="CIVIL">CIVIL</option>
+                            <option value="CS">COMPUTER SCIENCE</option>
+                            <option value="MECH">MECHANICAL</option>
+                            <option value="EXTC">EXTC</option>
+                            <option value="AUTO">AUTOMOBILE</option>
+                            <option value="EN">EN CELL</option>
+                            <option value="PLACEMENT">PLACEMENT CELL</option>
+                            <option value="NSS">NSS CELL</option>
                       </select>
                     </div>
 
-                    <div class="input-field col s12 mt-4">
+                    <div class="input-field col-sm-6 s12 mt-4">
+                        <label>Event level</label>
                         <select name="level" class="form-control" required>
                           <option value="" >Level</option>
                           <option value="INTERNATIONAL">INTERNATIONAL</option>
@@ -177,79 +220,83 @@ if(isset($_POST['submit'])){
                           <option value="INSTITUTIONAL">INSTITUTIONAL</option>
                         </select>
                     </div>
+                </div>
 
-                    <div class="input-field col s12 mt-4">
-                      <select name="type_of_event" class="form-control" required>
-                        <option value="">Type of Event</option>
-                        <option value="ADD-ON">ADD-ON</option>
-                        <option value="SITE VISIT">SITE VISIT</option>
-                        <option value="POSTER PRESENTATION">POSTER PRESENTATION</option>
-                        <option value="TECHNICAL CONFRENCE">TECHNICAL CONFRENCE</option>
-                        <option value="STTP">STTP</option>
-                        <option value="FDP">FDP</option>
-                        <option value="INDUSTRIAL VISIT">INDUSTRIAL VISIT</option>
-                        <option value="MODEL COMPETITION">MODEL COMPETITION</option>
-                        <option value="PROJECT COMPETITION">PROJECT COMPETITION</option>
-                        <option value="PAPER PRESENTATION">PAPER PRESENTATION</option>
-                        <option value="TRAINING">TRAINING</option>
-                        <option value="ANY OTHER">ANY OTHER</option>
-                      </select>
+                <div class="row">
+                    <div class="input-field col-sm-6 s12 mt-4">
+                        <label>Event type</label>
+                          <select name="type_of_event" class="form-control" required>
+                            <option value="">Type of Event</option>
+                            <option value="ADD-ON">ADD-ON</option>
+                            <option value="SITE VISIT">SITE VISIT</option>
+                            <option value="POSTER PRESENTATION">POSTER PRESENTATION</option>
+                            <option value="TECHNICAL CONFRENCE">TECHNICAL CONFRENCE</option>
+                            <option value="STTP">STTP</option>
+                            <option value="FDP">FDP</option>
+                            <option value="INDUSTRIAL VISIT">INDUSTRIAL VISIT</option>
+                            <option value="MODEL COMPETITION">MODEL COMPETITION</option>
+                            <option value="PROJECT COMPETITION">PROJECT COMPETITION</option>
+                            <option value="PAPER PRESENTATION">PAPER PRESENTATION</option>
+                            <option value="TRAINING">TRAINING</option>
+                            <option value="ANY OTHER">ANY OTHER</option>
+                          </select>
                     </div>
+                      <div class="input-field col s12 mt-4">
+                        <label>Participant type</label>
+                        <select name="type_of_participant" class="form-control" required>
+                            <option value="">Type of Participants</option>
+                              <option value="staff">STAFF</option>
+                              <option value="student">STUDENT</option>
+                              <option value="both">BOTH</option>
+                        </select>
 
-                    <div class="input-field col s12 mt-4">
-                        <input class="form-control" name="title" type="text" placeholder="Enter event title" required>
-                    </div>
+                      </div>
+                </div>
 
-                    </br>
+                <div class="row">
                     <div class="col">
                         <div class="row">
-                            <div class="col">
+                            <div class="col mt-4">
                                 <label>Date From</label>
                                 <input class="form-control" type="date" name="date_from" placeholder="Date from" required />
                             </div>
-                            <div class="col">
+                            <div class="col mt-4">
                                 <label>Date To</label>
                                 <input class="form-control" type="date" name="date_to" placeholder="Date to" required />
                             </div>
                         </div>
                     </div>
+                </div>
 
-                          <div class="input-field col s12 mt-4">
-                        <select name="type_of_participant" class="form-control" required>
-                            <option value="">Type of Participants</option>
-                          <option value="staff">STAFF</option>
-                          <option value="student">STUDENT</option>
-                          <option value="both">BOTH</option>
-                        </select>
 
+                <div class="row">
+                      <div class="input-field col s12 mt-4">
+                        <label>Resource person's name</label>
+                        <input class="form-control" name="resource_person_name" type="text" placeholder="Resource Person's Name" required>
                       </div>
 
+                      <div class="input-field col s12 mt-4">
+                        <label>Resource person's designation</label>
+                        <input class="form-control" name="resource_person_desg" type="text" placeholder="Resource Person's Designation" required>
+                      </div>
+                </div>
 
 
-
+                <div class="row">
                   <div class="input-field col s12 mt-4">
-                    <input class="form-control" name="resource_person_name" type="text" placeholder="Resource Person's Name" required>
-                  </div>
-
-                  <div class="input-field col s12 mt-4">
-                    <input class="form-control" name="resource_person_desg" type="text" placeholder="Resource Person's Designation" required>
-                  </div>
-
-
-                  <div class="input-field col s12 mt-4">
+                        <label>Resource person's organisation</label>
                     <input class="form-control" name="resource_person_org" type="text" placeholder="Resource Person's Organisation" required>
                   </div>
 
-
                   <div class="input-field col s12 mt-4">
+                        <label>Resource person's area of expertise</label>
                     <input class="form-control" name="area_of_expertise" type="text" placeholder="Area of Expertise" required>
                   </div>
-
-
+                </div>
 
               <div class="card-action">
-           <input class="btn btn-lg btn-primary btn-block text-uppercase mt-4"  onclick="submitForm()" type="submit" name="submit" value="Submit">
-                 </div>
+               <input class="btn btn-lg btn-primary offset-sm-5 text-uppercase mt-4"  onclick="submitForm()" type="submit" name="submit" value="Submit">
+             </div>
              </form>
 
           </div>

@@ -1,31 +1,26 @@
 <?php
-   include("initials.php");
-   session_start();
+session_start();
+include_once 'initials.php';
+if(!isset($_SESSION['user'])){
+  header('Location: login.php');
+  exit();
+}
 
-   if(!isset($_SESSION['admin'])){
-     header('Location: adminlogin.php');
-     exit();
-   }
-
-    $error = "";
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = mysqli_real_escape_string($db, $_POST['username']);
-        $password = mysqli_real_escape_string($db, $_POST['password']);
-        $con_password = mysqli_real_escape_string($db, $_POST['con_password']);
-
-        if ($password != $con_password) {
-            $error = "Password does not match";
-            echo "<script type='text/javascript'>alert('$error');</script>";
-            exit();
-        }
-
-        $sql = "INSERT INTO faculty (username, password) values ('$username', '$password')";
-        $result = mysqli_query($db,$sql);
-        if ($result) {
-            header("location:adminmain.php");
-        }
+if(isset($_POST['submit'])){
+    $db;
+    $id = $_POST["event"];
+    $sql = "UPDATE event set status = 'Cancelled' where id = '$id'";
+    $run = mysqli_query($db, $sql);
+    if ($run) {
+        $_SESSION["msg"] = "Event succesfully cancelled";
+        $_SESSION["msg_type"] = "info";
+        header('Location: ' . 'main.php', true, false ? 301 : 302);
+        exit();
     }
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,6 +40,9 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+     
+    <style>
+    </style>
 
 </head>
 
@@ -65,31 +63,27 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="main.php">
+          <i class="fas fa-fw fa-plus"></i>
+          <span>Add Event</span></a>
+      </li>
+
+      <hr class="sidebar-divider my-0">
 
       <li class="nav-item">
-        <a class="nav-link" href="adminmain.php">
-          <i class="fas fa-fw fa-file-alt"></i>
-          <span>Generate Report</span></a>
+        <a class="nav-link" href="complete_event.php">
+          <i class="fas fa-fw fa-check"></i>
+          <span>Event Completion</span></a>
       </li>
 
       <hr class="sidebar-divider my-0">
 
       <li class="nav-item active">
-        <a class="nav-link" href="create_faculty.php">
-          <i class="fas fa-fw fa-plus"></i>
-          <span>Create Faculty account</span></a>
+        <a class="nav-link" href="cancel_event.php">
+          <i class="fas fa-fw fa-times"></i>
+          <span>Cancel Event</span></a>
       </li>
-
-        <hr class="sidebar-divider my-0">
-        <li class="nav-item">
-            <a class="nav-link" href="complete_event_admin.php">
-                <i class="fas fa-fw fa-check"></i>
-                <span>Completet Event</span>
-            </a>
-        </li>
-
-
-
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -105,6 +99,11 @@
 
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
         <div class="sidebar-brand-icon">
           <img src="logo.png" width="30" height="30" class="d-inline-block align-top" alt="SCOE">
         </div>
@@ -112,11 +111,6 @@
         <div class="sidebar-brand-text mx-3">Saraswati College of Engineering</div>
       </a>
 
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -155,35 +149,32 @@
         ?>
 
 
-
           <!-- Page Heading -->
-          <div class="d-sm-flex justify-content-center mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Create new faculty account!</h1>
+          <div class="d-sm-flex align-items-center justify-content-center mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Cancel Event</h1>
           </div>
 
-        <div class="row justify-content-center">
+            <form class="form-signin col-sm-6 offset-sm-3" method="POST" action="cancel_event.php">
+              <div class="input-field s12 mt-4">
+                <label for="event">Select event to cancel</label>
+                <select class="form-control" name="event" id="event" required>
+                    <option value="" selected disabled>Select event to cancel</option>
+                      <?php
+                      $db;
+                      $user = $_SESSION['user'];
+                      $sql = "select id from event where username = '$user' and status = 'incomplete'";
+                      $execute = mysqli_query($db, $sql);
+                      while ($rows = mysqli_fetch_array($execute)) {
+                          $id = $rows["id"]; 
+                        ?>
+                          <option value="<?php echo $id ?>"><?php echo $id ?></option>
+                      <?php } ?>
 
-          <div class="col col-sm-6">
-                  <form method="post" name="create_faculty_form">
-                    <div class="form-group">
-                      <input type="text" name="username" class="form-control form-control-user" id="username" placeholder="Faculty name">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" name="password" class="form-control form-control-user" id="password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" name="con_password" class="form-control form-control-user" id="con_password" placeholder="Confirm Password">
-                    </div>
+                  </select>
+              </div>
 
-                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                        Submit
-                    </button>
-                </form>
-
-          </div>
-
-        </div>
-
+               <input class="btn btn-lg btn-primary text-uppercase mt-4 offset-sm-4" type="submit" name="submit" value="Submit">
+            </form>
         </div>
         <!-- /.container-fluid -->
 

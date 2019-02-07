@@ -3,8 +3,8 @@
 include("initials.php");
 session_start();
 
-if(!isset($_SESSION['user'])){
-  header('Location: login.php');
+if(!isset($_SESSION['admin'])){
+  header('Location: adminlogin.php');
   exit();
 }
 $error = "";
@@ -82,7 +82,7 @@ if(isset($_POST['submit'])){
     if($run){
         $_SESSION["msg"] = "Event succesfully completed";
         $_SESSION["msg_type"] = "success";
-        header('Location: ' . 'main.php', true, false ? 301 : 302);
+        header('Location: ' . 'adminmain.php', true, false ? 301 : 302);
         exit();
     } else {
         echo $sql;
@@ -147,28 +147,28 @@ if(isset($_POST['submit'])){
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link" href="main.php">
-          <i class="fas fa-fw fa-plus"></i>
-          <span>Add Event</span></a>
-      </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="adminmain.php">
+                  <i class="fas fa-fw fa-file-alt"></i>
+                  <span>Generate Report</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="create_faculty.php">
+                    <i class="fas fa-fw fa-plus"></i>
+                    <span>Create Faculty account</span>
+                </a>
+            </li>
 
-      <hr class="sidebar-divider my-0">
 
-      <li class="nav-item active">
-        <a class="nav-link" href="complete_event.php">
-          <i class="fas fa-fw fa-check"></i>
-          <span>Event Completion</span></a>
-      </li>
-
-      <hr class="sidebar-divider my-0">
-
-      <li class="nav-item">
-        <a class="nav-link" href="cancel_event.php">
-          <i class="fas fa-fw fa-times"></i>
-          <span>Cancel Event</span></a>
-      </li>
-
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item active">
+            <a class="nav-link" href="complete_event_admin.php">
+                <i class="fas fa-fw fa-check"></i>
+                <span>Completet Event</span>
+            </a>
+        </li>
 
 
       <!-- Divider -->
@@ -252,8 +252,7 @@ if(isset($_POST['submit'])){
 
                                       <?php
                                       $db;
-                                      $user = $_SESSION['user'];
-                                      $sql = "select id from event where username = '$user' and status = 'incomplete'";
+                                      $sql = "select id from event where status = 'incomplete'";
                                       $execute = mysqli_query($db, $sql);
                                       while ($rows = mysqli_fetch_array($execute)) {
                                           $id = $rows["id"]; 
