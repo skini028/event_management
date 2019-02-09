@@ -7,16 +7,16 @@ if(!isset($_SESSION['admin'])){
 }
 
 $entries = array();
-$line = "Title,Department,Level,Type of event,Date from,Date to,Type of Participant,Resource Person Name,Resource Person Designation,Resource Person Org,No. Of Participant,Area of expertise,Description,Outcome,Expenditure,Revenue,Funding Agency,Funds,Status,Association,Rank,Achievement Student/Staff,Achievement Dept.,Achievement College,PSO1 Objective,PSO1 Desc.,PSO2 Objective,PSO2 Desc.,PSO3 Objective,PSO3 Des.,PSO4 Objective,PSO4 Desc.,PSO5 Objective,PSO5 Desc.";
+$line = "ID,Title,Department,Level,Type of event,Date from,Date to,Type of Participant,Resource Person Name,Resource Person Designation,Resource Person Org,No. Of Participant,Area of expertise,Description,Outcome,Expenditure,Revenue,Funding Agency,Funds,Status,Association,Rank,Achievement Student/Staff,Achievement Dept.,Achievement College,PSO1 Objective,PSO1 Desc.,PSO2 Objective,PSO2 Desc.,PSO3 Objective,PSO3 Des.,PSO4 Objective,PSO4 Desc.,PSO5 Objective,PSO5 Desc.";
 array_push($entries, $line);
 
 $db;
 $sql = "select * from event where status = 'complete';";
-//$sql = "select * from event;";
 $result = mysqli_query($db, $sql);
 if ($result) {
     while($rows = mysqli_fetch_assoc($result)) {
-        $line = $rows["title"].",";
+        $line = $rows["id"].",";
+        $line .= $rows["title"].",";
         $line .= $rows["title"] .",";
         $line .= $rows["department"].",";
         $line .= $rows["level"].",";
@@ -55,7 +55,6 @@ if ($result) {
     } 
 }
 
-//$file = fopen("EventReport.csv","w");
 header('Content-Type: application/csv');
 header('Content-Disposition: attachment; filename="EventReport.csv;"');
 

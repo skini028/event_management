@@ -1,30 +1,68 @@
 <?php
-   include("initials.php");
-   session_start();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-   if(!isset($_SESSION['admin'])){
-     header('Location: adminlogin.php');
-     exit();
-   }
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 
-    $error = "";
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = mysqli_real_escape_string($db, $_POST['username']);
-        $password = mysqli_real_escape_string($db, $_POST['password']);
-        $con_password = mysqli_real_escape_string($db, $_POST['con_password']);
+include("initials.php");
+session_start();
 
-        if ($password != $con_password) {
-            $error = "Password does not match";
-            echo "<script type='text/javascript'>alert('$error');</script>";
-            exit();
-        }
+if(!isset($_SESSION['admin'])){
+ header('Location: adminlogin.php');
+ exit();
+}
 
-        $sql = "INSERT INTO faculty (username, password) values ('$username', '$password')";
-        $result = mysqli_query($db,$sql);
-        if ($result) {
-            header("location:adminmain.php");
-        }
+function sendEmail($email, $id) {
+    $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+    try {
+        //Server settings
+        //$mail->SMTPDebug = 2;                                 // Enable verbose debug output
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = 'collabooktest@gmail.com';                 // SMTP username
+        $mail->Password = 'c\qp<=PjOM+E';                           // SMTP password
+        $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 465;                                    // TCP port to connect to
+
+        //Recipients
+        $mail->setFrom('collabooktest@gmail.com', 'SCOE');
+        $mail->addAddress($email);     // Add a recipient
+        //Content
+        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->Subject = 'Event completition alert';
+        $mail->Body    = 'The event <b>' . $id . '</b> you registered for has ended. Please fill the event complition form';
+        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        $mail->send();
+        $_SESSION["msg"] = "Email notification has been sent";
+        $_SESSION["msg_type"] = "success";
+    } catch (Exception $e) {
+        $_SESSION["msg"] = "Failed to send email notification";
+        $_SESSION["msg_type"] = "danger";
+        exit();
     }
+
+}
+
+if(isset($_POST["submit"])) {
+    $id = $_POST["event"];
+    $user = $_POST["user"];
+    $email = $_POST["email"];
+    sendEmail($email, $id);
+}
+
+if(isset($_POST["send_all"])) {
+    $db;
+    $sql = "select event.id, event.title, event.date_from , event.date_to, event.username, faculty.email from event INNER JOIN faculty on event.username = faculty.username where event.date_to <= CURDATE() - INTERVAL 2 DAY AND event.status = 'incomplete'";
+    $run = mysqli_query($db, $sql);
+    while($rows = mysqli_fetch_array($run)) {
+        sendEmail($rows["email"], $rows["id"]);
+    }   
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +112,7 @@
 
       <hr class="sidebar-divider my-0">
 
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="create_faculty.php">
           <i class="fas fa-fw fa-plus"></i>
           <span>Create Faculty account</span></a>
@@ -88,16 +126,13 @@
             </a>
         </li>
 
-
         <hr class="sidebar-divider my-0">
-        <li class="nav-item">
+        <li class="nav-item active">
             <a class="nav-link" href="notification.php">
-                <i class="fas fa-fw fa-check"></i>
+                <i class="fas fa-fw fa-mail"></i>
                 <span>Send notification</span>
             </a>
         </li>
-
-
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -166,28 +201,53 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex justify-content-center mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Create new faculty account!</h1>
+            <h1 class="h3 mb-0 text-gray-800"></h1>
           </div>
 
         <div class="row justify-content-center">
 
-          <div class="col col-sm-6">
-                  <form method="post" name="create_faculty_form">
-                    <div class="form-group">
-                      <input type="text" name="username" class="form-control form-control-user" id="username" placeholder="Faculty name">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" name="password" class="form-control form-control-user" id="password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" name="con_password" class="form-control form-control-user" id="con_password" placeholder="Confirm Password">
-                    </div>
+          <div class="col">
 
-                    <button type="submit" class="btn btn-primary btn-user btn-block">
-                        Submit
-                    </button>
-                </form>
-
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Date From</th>
+                  <th scope="col">Date to</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php 
+                    $db;
+                    $sql = "select event.id, event.title, event.date_from , event.date_to, event.username, faculty.email from event INNER JOIN faculty on event.username = faculty.username where event.date_to <= CURDATE() - INTERVAL 2 DAY AND event.outcome IS NULL AND event.status = 'incomplete'";
+                    $run = mysqli_query($db, $sql);
+                    while($rows = mysqli_fetch_array($run))
+                    {
+                ?>
+                        <tr>
+                            <td><?php echo $rows["id"]; ?></td>
+                            <td><?php echo $rows["title"]; ?></td>
+                            <td><?php echo $rows["date_from"]; ?></td>
+                            <td><?php echo $rows["date_to"]; ?></td>
+                            <td>
+                                <form method="post">
+                                    <input type="text" name="event" value="<?php echo $rows["id"]; ?>" hidden />
+                                    <input type="text" name="user" value="<?php echo $rows["username"]; ?>" hidden />
+                                    <input type="text" name="email" value="<?php echo $rows["email"]; ?>" hidden />
+                                    <button name="submit" class="btn btn-primary">Send notification</button>
+                                </form>
+                            </td>
+                        </tr>
+                <?php
+                    }
+                ?>
+              </tbody>
+            </table>
+            <form method="post">
+                <button class="offset-sm-5 btn btn-primary" name="send_all" class="btn btn-primary">Send notification to all</button>
+            </form>
           </div>
 
         </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 07, 2019 at 02:10 PM
+-- Generation Time: Feb 09, 2019 at 08:30 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -91,7 +91,13 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`id`, `title`, `department`, `level`, `type_of_event`, `date_from`, `date_to`, `type_of_participant`, `resource_person_name`, `resource_person_desg`, `resource_person_org`, `no_of_participants`, `area_of_expertise`, `description`, `pso1`, `pso_desc1`, `outcome`, `expenditure`, `revenue`, `funding_agency`, `funds`, `status`, `username`, `association`, `rank`, `ach_student_staff`, `ach_dept`, `ach_college`, `pso2`, `pso_desc2`, `pso3`, `pso_desc3`, `pso4`, `pso_desc4`, `pso5`, `pso_desc5`) VALUES
-('IT1', 'einoiesrntoiesrat', 'IT', 'INTERNATIONAL', 'ADD-ON', '2019-02-07', '2019-02-08', 'staff', '1', '1', '1', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'incomplete', 'user1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+('IT2', 'test event', 'IT', 'INTERNATIONAL', 'ADD-ON', '2019-02-07', '2019-02-07', 'staff', '1', '1', '1', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Cancelled', 'user1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('IT3', 'test titile', 'IT', 'INTERNATIONAL', 'ADD-ON', '2019-02-07', '2019-02-07', 'staff', '1', '1', '1', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Cancelled', 'user1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('IT4', 'astasrt', 'IT', 'INTERNATIONAL', 'ADD-ON', '2019-02-07', '2019-02-07', 'staff', '1', '1', '1', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'incomplete', 'user1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('IT5', 'asrtarst', 'IT', 'INTERNATIONAL', 'ADD-ON', '2019-02-07', '2019-02-07', 'staff', '1', '1', '1', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'incomplete', 'user1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('IT6', 'testevenstra', 'IT', 'INTERNATIONAL', 'ADD-ON', '2019-02-07', '2019-02-08', 'staff', '1', '1', '1', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'incomplete', 'user1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('IT7', 'teasntoairstn', 'IT', 'INTERNATIONAL', 'ADD-ON', '2019-02-06', '2019-02-07', 'staff', '1', '1', '1', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'incomplete', 'user1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('IT8', 'hnienh', 'IT', 'INTERNATIONAL', 'ADD-ON', '2019-02-08', '2019-02-09', 'staff', 'nehn', 'nhn', 'hnnh', NULL, 'hnh', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'incomplete', 'user1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -102,16 +108,17 @@ INSERT INTO `event` (`id`, `title`, `department`, `level`, `type_of_event`, `dat
 CREATE TABLE `faculty` (
   `id` int(11) NOT NULL,
   `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
+  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `faculty`
 --
 
-INSERT INTO `faculty` (`id`, `username`, `password`) VALUES
-(1, 'user1', 'user1'),
-(2, 'new', '123');
+INSERT INTO `faculty` (`id`, `username`, `password`, `email`) VALUES
+(1, 'user1', 'user1', 'akhilkpdasan@gmail.com'),
+(2, 'new', '123', '');
 
 --
 -- Indexes for dumped tables
@@ -150,7 +157,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `faculty`
 --
 ALTER TABLE `faculty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

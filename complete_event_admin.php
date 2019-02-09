@@ -147,7 +147,7 @@ if(isset($_POST['submit'])){
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="adminmain.php">
                   <i class="fas fa-fw fa-file-alt"></i>
                   <span>Generate Report</span>
@@ -167,6 +167,14 @@ if(isset($_POST['submit'])){
             <a class="nav-link" href="complete_event_admin.php">
                 <i class="fas fa-fw fa-check"></i>
                 <span>Completet Event</span>
+            </a>
+        </li>
+
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item">
+            <a class="nav-link" href="notification.php">
+                <i class="fas fa-fw fa-check"></i>
+                <span>Send notification</span>
             </a>
         </li>
 

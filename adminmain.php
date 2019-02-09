@@ -66,6 +66,13 @@ if(!isset($_SESSION['admin'])){
                 </a>
             </li>
 
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item">
+            <a class="nav-link" href="notification.php">
+                <i class="fas fa-fw fa-mail"></i>
+                <span>Send notification</span>
+            </a>
+        </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -129,6 +136,7 @@ if(!isset($_SESSION['admin'])){
                                 <table class="table" style="min-height: 80%">
                                     <thead class="thead-dark">
                                         <tr class="d-flex">
+                                            <th class="col-1" scope="col">ID</th>
                                             <th class="col-1" scope="col">Title</th>
                                             <th class="col-1" scope="col">Department</th>
                                             <th class="col-1" scope="col">Level</th>
@@ -174,6 +182,7 @@ if(!isset($_SESSION['admin'])){
                                             while($rows = mysqli_fetch_assoc($result)) {
                                         ?>
                                         <tr class="d-flex">
+                                            <td class="col-1"><?php echo $rows["id"] ?></td>
                                             <td class="col-1"><?php echo $rows["title"] ?></td>
                                             <td class="col-1"><?php echo $rows["department"] ?></td>
                                             <td class="col-1"><?php echo $rows["level"] ?></td>
